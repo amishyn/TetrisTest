@@ -54,8 +54,11 @@ public class Tetramin : MonoBehaviour {
 	/// <summary>
 	/// Instantiation section
 	/// </summary>
+	// TODO: move to separate controller object, kind of TetraController
+
 	public void PutOnPreviewField() {
 		for(int i=0; i<pieces.Length; i++){
+			// DRY: add method to field: attachTetramin
 			pieces[i].x = (int)piecesCoordinates[i].x;
 			pieces[i].y = (int)piecesCoordinates[i].y;
 			PreviewField.SetPieceToPosition(pieces[i]);
@@ -67,6 +70,7 @@ public class Tetramin : MonoBehaviour {
 		isOnPlayField = true;
 		for(int i=0; i<pieces.Length; i++){
 			Vector2 globalPosition = TetraSpowner.startPosition - (centerCoordinate - piecesCoordinates[i]);
+			// DRY
 			pieces[i].x = (int)globalPosition.x;
 			pieces[i].y = (int)globalPosition.y;
 			PlayField.SetPieceToPosition(pieces[i]);
@@ -78,25 +82,27 @@ public class Tetramin : MonoBehaviour {
 	/// Rotation section
 	/// </summary>
 
+	//TODO:  typofix RotateAttempt, consider TryToRotate()
 	void RotateAttept(){
 		if(CanIRotate())
 			Rotate();
 	}
 
 	bool CanIRotate(){
+		// TODO: think about cube rotation
 		if(avalableRotations == RotationModes.NONE)
 			return false;
-		
+
 		Vector2 transition;
 		for(int i=0; i < pieces.Length; i++){
 			transition = GetRotationTransition(pieces[i]);
 			if(!PlayField.IsCellFree(pieces[i].x+(int)transition.x,pieces[i].y+(int)transition.y)){
 				return false;
 			}
-		}	
+		}
 		return true;
 	}
-
+	// TODO: hide behind another object
 	Vector2 GetRotationTransition(Piece piece){
 		int matrixCenter = 2;
 		int matrixX = piece.x - (int)centerCoordinate.x + matrixCenter;
@@ -107,10 +113,10 @@ public class Tetramin : MonoBehaviour {
 			else
 				//return new Vector2(rotationMatrix[matrixY, matrixX].y, rotationMatrix[matrixY, matrixX].x);
 				return rotationMatrixClockwise[matrixX, matrixY];
-		} else 
+		} else
 			return rotationMatrix[matrixX, matrixY];
 	}
-	
+
 	void Rotate(){
 		Vector2 transition;
 		for(int i=0; i < pieces.Length; i++){
@@ -118,7 +124,7 @@ public class Tetramin : MonoBehaviour {
 			pieces[i].x += (int)transition.x;
 			pieces[i].y += (int)transition.y;
 			PlayField.SetPieceToPosition(pieces[i]);
-		}	
+		}
 		switch(avalableRotations){
 		case RotationModes.FULL:
 			currentRotation = (currentRotation+90)%360;
@@ -129,7 +135,7 @@ public class Tetramin : MonoBehaviour {
 			else
 				currentRotation = 0;
 			break;
-		}		
+		}
 	}
 
 	/// <summary>
@@ -140,9 +146,9 @@ public class Tetramin : MonoBehaviour {
 		bool canIMove = CanIGoDirection(direction);
 		if(canIMove)
 			GoToDirection(direction);
-		else 
+		else
 			DropPiecesAndDestroyMyself();
-		
+
 		return canIMove;
 	}
 
@@ -156,7 +162,7 @@ public class Tetramin : MonoBehaviour {
 			if(!PlayField.IsCellFree(pieces[i].x+(int)direction.x,pieces[i].y+(int)direction.y)){
 				return false;
 			}
-		}		
+		}
 		return true;
 	}
 

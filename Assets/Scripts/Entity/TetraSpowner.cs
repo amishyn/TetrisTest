@@ -20,6 +20,7 @@ public class TetraSpowner : MonoBehaviour {
 		startPosition = userDefinedStartPosition;
 	}
 
+	//TODO: Review event model
 	void OnEnable() {
 		PlayField.FieldCreated += StartSpowning;
 		PlayField.RowClearingComplete += SpownNext;
