@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Cell : MonoBehaviour {
 
+	// TODO: rename to reflect that cell do not decide what it should do.
+	// rename to smth like isOccupied
+
 	public bool CanIMoveHere(){
 		if(IsEmpty()){
 			return true;
@@ -10,7 +13,7 @@ public class Cell : MonoBehaviour {
 			Piece otherPiece = transform.GetChild(0).GetComponent<Piece>();
 			if(otherPiece != null && otherPiece.isDropped)
 				return false;
-			else 
+			else
 				return true;
 		}
 	}

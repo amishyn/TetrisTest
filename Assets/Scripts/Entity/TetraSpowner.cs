@@ -3,6 +3,8 @@ using System.Collections;
 using System;
 using Random = UnityEngine.Random;
 
+// TODO: typofix, TetraSpawner
+
 public class TetraSpowner : MonoBehaviour {
 
 	public GameObject[] tetramines;
